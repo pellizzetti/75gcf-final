@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /*
 |--------------------------------------------------------------------------
@@ -14,21 +14,15 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use("Route");
 
-Route.get('/', () => {
-  return `
-  <html>
-    <head>
-      <link rel="stylesheet" href="/style.css" />
-    </head>
-    <body>
-      <section>
-        <div class="logo"></div>
-        <div class="title"></div>
-        <div class="subtitle"><p>AdonisJs simplicity will make you feel confident about your code</p></div>
-      </section>
-    </body>
-  </html>
-  `
-})
+Route.on("/").render("home");
+
+Route.get("/products", "ProductController.index");
+Route.get("/products/add", "ProductController.create");
+Route.get("/products/:id", "ProductController.show");
+Route.get("/products/:id/edit", "ProductController.edit");
+
+Route.post("/products", "ProductController.store");
+Route.put("/products/:id/edit", "ProductController.store");
+Route.delete("/products/:id", "ProductController.destroy");

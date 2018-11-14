@@ -1,0 +1,30 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <h1>Produtos</h1>
+      <a class="button float-right" href="/products/add">Adicionar</a>
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(products.length > 0)
+            @each(product in products)
+              <tr>
+                <td><a href="/products/{{product.id}}">{{ product.description }}</a></td>
+              </tr>
+            @endeach
+          @else
+            <tr>
+              <td align="center">Nenhum produto cadastrado...</td>
+            </tr>
+          @endif
+        </tbody>
+      </table>
+    </div>
+  </section>
+@endsection

@@ -1,0 +1,50 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <a class="float-left" href="/products">⬅ Voltar</a>
+      <hr>
+      @if(editing)
+        <h2>Editar produto</h2>
+      @else
+        <h2>Adicionar produto</h2>
+      @endif
+
+      <form method="POST" action="/products">
+        {{ csrfField() }}
+        <fieldset>
+          @if(editing)
+            <input type="hidden" name="id" value="{{ product.id }}">
+          @else
+            <input type="hidden" name="id" value="null">
+          @endif
+
+          <label for="description">Descrição</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('description'), hasErrorFor('description')) }}
+          @if(editing)
+            <input type="text" name="description" id="description" value="{{ product.description }}">
+          @else
+            <input type="text" name="description" id="description" value="{{ old('description', '') }}">
+          @endif
+
+          <label for="manufacturer">Fabricante</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('manufacturer'), hasErrorFor('manufacturer')) }}
+          @if(editing)
+            <input type="text" name="manufacturer" id="manufacturer" value="{{ product.manufacturer }}">
+          @else
+            <input type="text" name="manufacturer" id="manufacturer" value="{{ old('manufacturer', '') }}">
+          @endif
+
+          <hr>
+
+          @if(editing)
+            <input class="button-primary float-right" type="submit" onclick="this.form.action = location.pathname + '?_method=put'" value="Editar">
+          @else
+            <input class="button-primary float-right" type="submit" value="Adicionar">
+          @endif
+        </fieldset>
+      </form>
+    </div>
+  <section class="container">
+@endsection
