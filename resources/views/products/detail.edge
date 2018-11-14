@@ -1,0 +1,19 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <a class="float-left" href="/products">⬅ Voltar</a>
+      <hr>
+      <h2>{{ product.description }}</h2>
+      <h4><strong>Fabricante:</strong> {{ product.manufacturer }}</h4>
+      <hr>
+
+      <form action="{{ '/products/' + product.id + '?_method=DELETE' }}" method="POST" class="float-right">
+        {{ csrfField() }}
+        <a class="button a-right" href="/products/{{ product.id }}/edit">Editar</a>
+        <button type="submit" class="button button-black a-right" onclick="return confirm('Tem certeza que deseja deletar esse registro?')">Deletar</button>
+      </form>
+    </div>
+  </section>
+@endsection
