@@ -1,0 +1,30 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <h1>Clientes</h1>
+      <a class="button float-right" href="/customers/add">Adicionar</a>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(customers.length > 0)
+            @each(customer in customers)
+              <tr>
+                <td><a href="/customers/{{customer.id}}">{{ customer.name }}</a></td>
+              </tr>
+            @endeach
+          @else
+            <tr>
+              <td align="center">Nenhum cliente cadastrado...</td>
+            </tr>
+          @endif
+        </tbody>
+      </table>
+    </div>
+  </section>
+@endsection
