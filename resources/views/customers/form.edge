@@ -1,0 +1,98 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <a class="float-left" href="/customers">⬅ Voltar</a>
+      <hr>
+      @if(editing)
+        <h2>Editar cliente</h2>
+      @else
+        <h2>Adicionar cliente</h2>
+      @endif
+
+      <form method="POST" action="/customers">
+        {{ csrfField() }}
+        <fieldset>
+          @if(editing)
+            <input type="hidden" name="id" value="{{ customer.id }}">
+          @else
+            <input type="hidden" name="id" value="null">
+          @endif
+
+          <label for="name">Nome</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('name'), hasErrorFor('name')) }}
+          @if(editing)
+              <input type="text" name="name" id="name" value="{{ customer.name }}">
+          @else
+              <input type="text" name="name" id="name" value="{{ old('name', '') }}">
+          @endif
+
+          <label for="doc">CPF</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('doc'), hasErrorFor('doc')) }}
+          @if(editing)
+              <input type="text" name="doc" id="doc" value="{{ customer.doc }}">
+          @else
+              <input type="text" name="doc" id="doc" value="{{ old('doc', '') }}">
+          @endif
+
+          <label for="address">Logradouro</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('address'), hasErrorFor('address')) }}
+          @if(editing)
+              <input type="text" name="address" id="address" value="{{ customer.address }}">
+          @else
+              <input type="text" name="address" id="address" value="{{ old('address', '') }}">
+          @endif
+
+          <label for="number">Número</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('number'), hasErrorFor('number')) }}
+          @if(editing)
+              <input type="text" name="number" id="number" value="{{ customer.number }}">
+          @else
+              <input type="text" name="number" id="number" value="{{ old('number', '') }}">
+          @endif
+
+          <label for="district">Bairro</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('district'), hasErrorFor('district')) }}
+          @if(editing)
+              <input type="text" name="district" id="district" value="{{ customer.district }}">
+          @else
+              <input type="text" name="district" id="district" value="{{ old('district', '') }}">
+          @endif
+
+          <label for="city">Cidade</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('city'), hasErrorFor('city')) }}
+          @if(editing)
+              <input type="text" name="city" id="city" value="{{ customer.city }}">
+          @else
+              <input type="text" name="city" id="city" value="{{ old('city', '') }}">
+          @endif
+
+          <label for="cep">CEP</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('cep'), hasErrorFor('cep')) }}
+          @if(editing)
+              <input type="text" name="cep" id="cep" value="{{ customer.cep }}">
+          @else
+              <input type="text" name="cep" id="cep" value="{{ old('cep', '') }}">
+          @endif
+
+          <label for="state">Estado</label>
+          {{ elIf('<span class="err">$self</span>', getErrorFor('state'), hasErrorFor('state')) }}
+          @if(editing)
+              <input type="text" name="state" id="state" value="{{ customer.state }}">
+          @else
+              <input type="text" name="state" id="state" value="{{ old('state', '') }}">
+          @endif
+
+          <hr>
+
+          @if(editing)
+            <input class="button-primary float-right" type="submit" onclick="this.form.action = location.pathname + '?_method=put'" value="Editar">
+          @else
+            <input class="button-primary float-right" type="submit" value="Adicionar">
+          @endif
+        </fieldset>
+      </form>
+    </div>
+  <section class="container">
+@endsection

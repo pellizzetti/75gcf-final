@@ -1,0 +1,25 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <a class="float-left" href="/customers">⬅ Voltar</a>
+      <hr>
+      <h2>{{ customer.name }}</h2>
+      <h4>CPF: {{ customer.doc }}</h4>
+      <h4>Logradouro: {{ customer.address }}</h4>
+      <h4>Número: {{ customer.number }}</h4>
+      <h4>Bairro: {{ customer.district }}</h4>
+      <h4>Cidade: {{ customer.city }}</h4>
+      <h4>CEP: {{ customer.cep }}</h4>
+      <h4>Estado: {{ customer.state }}</h4>
+      <hr>
+
+      <form action="{{ '/customers/' + customer.id + '?_method=DELETE' }}" method="POST" class="float-right">
+        {{ csrfField() }}
+        <a class="button a-right" href="/customers/{{ customer.id }}/edit">Editar</a>
+        <button type="submit" class="button button-black a-right" onclick="return confirm('Tem certeza que deseja deletar esse registro?  }}</h4>">Deletar</button>
+      </form>
+    </div>
+  </section>
+@endsection

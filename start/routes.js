@@ -26,3 +26,12 @@ Route.get("/products/:id/edit", "ProductController.edit");
 Route.post("/products", "ProductController.store");
 Route.put("/products/:id/edit", "ProductController.store");
 Route.delete("/products/:id", "ProductController.destroy");
+
+Route.get("/customers", "CustomerController.index");
+Route.get("/customers/add", "CustomerController.create");
+Route.get("/customers/:id", "CustomerController.show");
+Route.get("/customers/:id/edit", "CustomerController.edit");
+
+Route.post("/customers", "CustomerController.store");
+Route.put("/customers/:id/edit", "CustomerController.store");
+Route.delete("/customers/:id", "CustomerController.destroy");
