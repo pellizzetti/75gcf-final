@@ -25,48 +25,48 @@ npm i -g @adonisjs/cli
 Antes de prosseguir, ler a documentação do framework [AdonisJs](https://adonisjs.com/docs/4.1/about)
 com certeza torna o processo muito mais suave.
 
-  - **Passo 1**
+- **Passo 1**
 
-    Clone este repositório:
-    ```sh
-    git clone https://github.com/pellizzetti/75gcf-final.git
-    ```
+  Clone este repositório:
+  ```sh
+  git clone https://github.com/pellizzetti/75gcf-final.git
+  ```
 
-  - **Passo 2**
+- **Passo 2**
 
-    Instale as dependências do projeto:
-    ```sh
-    npm i
-    ```
+  Instale as dependências do projeto:
+  ```sh
+  npm i
+  ```
 
-  - **Passo 3**
+- **Passo 3**
 
-    Crie seu `.env` usando o `.env.example` como exemplo e preeche de acordo com seu uso:
-    ```sh
-    cp .env.example .env
-    vim .env
-    ```
+  Crie seu `.env` usando o `.env.example` como exemplo e preeche de acordo com seu uso:
+  ```sh
+  cp .env.example .env
+  vim .env
+  ```
 
-  - **Passo 4**
+- **Passo 4**
 
-    Gere uma `key`:
-    ```
-    adonis key:generate
-    ```
+  Gere uma `key`:
+  ```
+  adonis key:generate
+  ```
 
-  - **Passo 5**
+- **Passo 5**
 
-    Rode as migrations do projeto:
-    ```
-    adonis migration:run
-    ```
-    
-  - **(Opcional) Passo 6**
-  
-    Caso queria rodar seeds do projeto:
-    ```
-    adonis seed
-    ```
+  Rode as migrations do projeto:
+  ```
+  adonis migration:run
+  ```
+
+- **(Opcional) Passo 6**
+
+  Caso queria rodar seeds do projeto:
+  ```
+  adonis seed
+  ```
     
 Pronto, projeto instalado com sucesso!
 
