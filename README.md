@@ -9,7 +9,7 @@ Certifique-se de que suas versões dessas ferramentas correspondam aos seguintes
 - Node.js >= 8.0.0
 - npm >= 3.0.0
 
-DICA: Você pode usar ferramentas como o [nvm](https://github.com/creationix/nvm) nvm para ajudar a gerenciar várias versões do Node.js e npm ao mesmo tempo.
+DICA: Você pode usar ferramentas como o [nvm](https://github.com/creationix/nvm) para ajudar a gerenciar várias versões do Node.js e npm ao mesmo tempo.
 
 ## Adonis CLI
 
