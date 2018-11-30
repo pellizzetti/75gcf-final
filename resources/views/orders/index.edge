@@ -1,0 +1,33 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <h1>Pedidos</h1>
+      <a class="button float-right" href="/orders/add">Adicionar</a>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th colspan="2">Cliente</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(orders.length > 0)
+            @each(order in orders)
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer.name }}</td>
+                <td><a href="/orders/{{order.id}}">Detalhar</a></td>
+              </tr>
+            @endeach
+          @else
+            <tr>
+              <td align="center" colspan="3">Nenhum pedido cadastrado...</td>
+            </tr>
+          @endif
+        </tbody>
+      </table>
+    </div>
+  </section>
+@endsection

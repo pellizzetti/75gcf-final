@@ -1,0 +1,218 @@
+@layout('main')
+
+@section('content')
+  <section class="container">
+    <div class="card">
+      <a class="float-left" href="/orders">⬅ Voltar</a>
+      <hr>
+      @if(editing)
+        <h2>Editar pedido</h2>
+      @else
+        <h2>Adicionar pedido</h2>
+      @endif
+
+      <form method="POST" action="/orders">
+        {{ csrfField() }}
+        <fieldset>
+          @if(editing)
+            <input type="hidden" name="id" value="{{ order.id }}">
+          @else
+            <input type="hidden" name="id" value="null">
+          @endif
+
+          <label for="customer">Cliente</label>
+          <select class="js-example-basic-single" id="customer" name="customer">
+            @each(customer in customers)
+              <option value="{{customer.id}}">{{ customer.name }}</option>
+            @endeach
+          </select>
+
+          <label for="products">Produtos</label>
+          <select class="js-example-basic-multiple" id="products" name="product-ids[]" multiple="multiple">
+            @each(product in products)
+              <option value="{{toJSON(product)}}">{{ product.description }}</option>
+            @endeach
+          </select>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Preço</th>
+                <th>Desconto</th>
+              </tr>
+            </thead>
+            <tbody id="products-table"></tbody>
+          </table>
+
+          <button type="button" class="button button-outline float-right" id="calcTotal">Calcular total</button>
+
+          <label for="total">Total</label>
+          <input type="text" readonly name="total" id="total" value="0">
+
+          <hr>
+
+          @if(editing)
+            <input class="button-primary float-right" type="submit" onclick="this.form.action = location.pathname + "?_method=put"" value="Editar">
+          @else
+            {{--  <input class="button-primary float-right" type="submit" value="Adicionar">  --}}
+            <button type="button" class="button button-primary float-right" id="submit">Adicionar</button>
+          @endif
+        </fieldset>
+      </form>
+    </div>
+  <section class="container">
+  @if(editing)
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          url: "http://localhost:3333/orders/" + $("#id").val() + "/info",
+          type: "GET",
+          dataType: "json",
+          success: function(response) {
+            console.log("sucesso")
+            console.log(response)
+          },
+          error: function(xhr, status, error) {
+            alert("Falha ao buscar dados")
+            console.log(xhr)
+            console.log(status)
+            console.log(error)
+          }
+        });
+
+        $("#customer").select2({
+          language: "pt-BR"
+        });
+
+        $("#products").select2({
+          language: "pt-BR"
+        });
+
+        $("#customer").on("select2:select", function (e) {
+          $("<input>").attr({
+            type: "hidden",
+            id: "foo",
+            name: "bar"
+          }).appendTo("form");
+        });
+      });
+    </script>
+  @else
+    <script>
+      $(document).ready(function() {
+        jQuery.fn.pop = [].pop;
+        jQuery.fn.shift = [].shift;
+
+        function getProducts() {
+          const $rows = $("#products-table").find('tr:not(:hidden)');
+          const headers = ["id", "description", "quantity", "price", "discount"];
+          const data = [];
+          let total = $()
+
+          $rows.each(function () {
+            const $td = $(this).find('td');
+            const h = {};
+
+            headers.forEach(function (header, i) {
+              h[header] = $td.eq(i).text();
+            });
+
+            data.push(h);
+          });
+
+          return data
+        }
+
+        function calcTotal() {
+          const $rows = $("#products-table").find('tr:not(:hidden)');
+          let total = 0;
+
+          $rows.each(function () {
+            const $td = $(this).find('td');
+
+            const quantity = parseInt($td.eq(2).text());
+            const price = parseInt($td.eq(3).text());
+            const discount = parseInt($td.eq(4).text());
+
+            const valor = quantity * (price - discount);
+
+            total += valor
+          });
+
+          return total
+        }
+
+        $('#calcTotal').click(function(e) {
+          e.preventDefault();
+          const total = calcTotal();
+          $("#total").val(total);
+        });
+
+        $('#submit').click(function(e) {
+          e.preventDefault();
+          const products = getProducts(e);
+
+          const payload = {
+            _csrf: $("input[name=_csrf]").val(),
+            id: $("input[name=id]").val(),
+            customer: $("#customer").val(),
+            products
+          }
+
+          $.ajax({
+            url: "http://localhost:3333/orders/",
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function(response) {
+              console.log(response)
+              window.location = "http://localhost:3333/orders/"
+            },
+            error: function(xhr, status, error) {
+              alert("Falha ao enviar dados")
+              console.log(xhr)
+              console.log(status)
+              console.log(error)
+            }
+          });
+        });
+
+        $("#customer").select2({
+          language: "pt-BR"
+        });
+
+        $("#products").select2({
+          language: "pt-BR"
+        });
+
+        $("#products").on("select2:select", function (e) {
+          const product = JSON.parse(e.params.data.id);
+
+          const id = "<td>" + product.id + "</td>";
+          const description = "<td>" + product.description + "</td>";
+          const quantity = '<td id="content" contenteditable>1</td>';
+          const price = '<td contenteditable>0</td>';
+          const discount = '<td contenteditable>0</td>';
+
+          $("#products-table").append('<tr id="' + product.id + '">' +
+            id +
+            description +
+            quantity +
+            price +
+            discount +
+          '</tr>');
+        });
+
+        $("#products").on("select2:unselect", function (e) {
+          const product = JSON.parse(e.params.data.id);
+
+          $('#' + product.id).remove();
+        });
+      });
+    </script>
+  @endif
+@endsection
